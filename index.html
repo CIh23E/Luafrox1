@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -19,7 +20,9 @@
       --danger: #ef4444;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       background: var(--bg);
@@ -27,8 +30,15 @@
       min-height: 100vh;
       line-height: 1.5;
     }
-    .container { max-width: 780px; margin: 0 auto; padding: 20px 16px 40px; }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
     .hidden { display: none !important; }
+
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -36,76 +46,196 @@
       padding: 20px;
       margin-bottom: 16px;
     }
+
     .header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px; gap: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 12px;
     }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
     .brand-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: var(--primary-soft); border: 1px solid rgba(16,185,129,0.4);
-      color: var(--primary); display: grid; place-items: center; font-family: var(--mono);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      border: 1px solid rgba(16,185,129,0.4);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-family: var(--mono);
     }
+
     .brand span { color: var(--primary); }
+
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 11px 16px; border-radius: 10px; border: 1px solid transparent;
-      font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 16px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.15s;
     }
-    .btn-primary { background: var(--primary); color: #042016; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #042016;
+    }
+
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-outline { background: transparent; border-color: var(--border); color: var(--text); }
-    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-    .btn-soft { background: var(--primary-soft); color: var(--primary); }
-    .btn-danger { background: rgba(239,68,68,0.14); color: var(--danger); }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-soft {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .btn-danger {
+      background: rgba(239,68,68,0.14);
+      color: var(--danger);
+    }
+
     .btn-full { width: 100%; }
+
     input, textarea {
-      width: 100%; background: var(--surface-2); color: var(--text);
-      border: 1px solid var(--border); border-radius: 10px;
-      padding: 12px 14px; font-size: 14px; outline: none;
+      width: 100%;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
     }
+
     input:focus, textarea:focus { border-color: var(--primary); }
+
     textarea {
-      font-family: var(--mono); font-size: 13px; min-height: 300px; resize: vertical;
+      font-family: var(--mono);
+      font-size: 13px;
+      min-height: 300px;
+      resize: vertical;
     }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    .stat-label { font-size: 12px; color: var(--muted); }
-    .stat-val { font-size: 26px; font-weight: 700; margin-top: 4px; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .stat-val {
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
     .notice {
-      background: var(--primary-soft); border: 1px solid rgba(16,185,129,0.35);
-      color: #6ee7b7; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 16px;
+      background: var(--primary-soft);
+      border: 1px solid rgba(16,185,129,0.35);
+      color: #6ee7b7;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 16px;
     }
+
     .raw-box {
-      font-family: var(--mono); font-size: 12px; color: var(--muted);
-      background: var(--surface-2); padding: 8px 10px; border-radius: 8px;
-      margin: 10px 0; overflow-x: auto; white-space: nowrap;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--surface-2);
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      overflow-x: auto;
+      white-space: nowrap;
     }
-    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
     .badge {
-      display: inline-block; font-family: var(--mono); font-size: 11px;
-      background: var(--primary-soft); color: var(--primary);
-      padding: 3px 8px; border-radius: 6px; margin-right: 8px;
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
     }
+
     .toast {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: var(--surface-2); border: 1px solid var(--primary);
-      color: var(--text); padding: 10px 18px; border-radius: 10px;
-      font-size: 13px; z-index: 999; max-width: 92vw;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-2);
+      border: 1px solid var(--primary);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 999;
+      max-width: 92vw;
     }
+
     footer {
-      text-align: center; color: var(--muted); font-size: 12px;
-      margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
     }
+
     footer b { color: var(--primary); }
   </style>
 </head>
+
 <body>
+
   <!-- AUTH VIEW -->
   <div id="authView" class="container">
     <div style="text-align:center; margin: 24px 0;">
       <div class="brand" style="justify-content:center; font-size:26px;">
         <div class="brand-icon">&lt;/&gt;</div> Lua<span>frox</span>
       </div>
+
       <p style="color:var(--muted); margin-top:8px; font-size:14px;">
         Store, Edit &amp; Share Lua Scripts with Permanent Raw URLs
       </p>
@@ -113,20 +243,40 @@
 
     <div class="card">
       <h3 style="margin-bottom:14px;">Login atau Register</h3>
-      <input id="authEmail" type="email" placeholder="Email" style="margin-bottom:10px;" />
-      <input id="authPassword" type="password" placeholder="Password (min. 6 karakter)" style="margin-bottom:14px;" />
+
+      <input
+        id="authEmail"
+        type="email"
+        placeholder="Email"
+        style="margin-bottom:10px;"
+      />
+
+      <input
+        id="authPassword"
+        type="password"
+        placeholder="Password (min. 6 karakter)"
+        style="margin-bottom:14px;"
+      />
+
       <div class="actions">
         <button class="btn btn-primary" onclick="handleLogin()">Login</button>
         <button class="btn btn-outline" onclick="handleRegister()">Register</button>
       </div>
     </div>
+
     <footer><b>Luafrox</b> &bull; Permanent Raw URL Engine</footer>
   </div>
 
+
   <!-- DASHBOARD VIEW -->
   <div id="dashboardView" class="container hidden">
+
     <div class="header">
-      <div class="brand"><div class="brand-icon">&lt;/&gt;</div> Lua<span>frox</span></div>
+      <div class="brand">
+        <div class="brand-icon">&lt;/&gt;</div>
+        Lua<span>frox</span>
+      </div>
+
       <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
     </div>
 
@@ -135,275 +285,661 @@
         <div class="stat-label">Total Scripts</div>
         <div id="totalScripts" class="stat-val">0</div>
       </div>
+
       <div class="card" style="margin:0;">
         <div class="stat-label">Total Raw Links</div>
         <div id="totalRawLinks" class="stat-val">0</div>
       </div>
     </div>
 
-    <button class="btn btn-primary btn-full" style="margin-bottom:14px;" onclick="openEditor(null)">
+    <button
+      class="btn btn-primary btn-full"
+      style="margin-bottom:14px;"
+      onclick="openEditor(null)"
+    >
       + Create New Script
     </button>
 
     <div class="notice">Please use lua or text files</div>
 
-    <input id="searchInput" type="text" placeholder="Search scripts..." oninput="renderScripts()" style="margin-bottom:16px;" />
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search scripts..."
+      oninput="renderScripts()"
+      style="margin-bottom:16px;"
+    />
 
     <div id="scriptsList"></div>
 
     <footer><b>Luafrox</b> &bull; Permanent Raw URL Engine</footer>
   </div>
 
+
   <!-- EDITOR VIEW -->
   <div id="editorView" class="container hidden">
+
     <div class="header">
-      <div class="brand"><div class="brand-icon">&lt;/&gt;</div> <span id="editorTitle" style="color:var(--text);">Create Script</span></div>
+      <div class="brand">
+        <div class="brand-icon">&lt;/&gt;</div>
+        <span id="editorTitle" style="color:var(--text);">Create Script</span>
+      </div>
+
       <label class="btn btn-outline" style="cursor:pointer;">
         Upload .lua/.txt
-        <input id="fileInput" type="file" accept=".lua,.txt,text/plain" class="hidden" onchange="handleFileUpload(event)" />
+        <input
+          id="fileInput"
+          type="file"
+          accept=".lua,.txt,text/plain"
+          class="hidden"
+          onchange="handleFileUpload(event)"
+        />
       </label>
     </div>
 
     <div id="permanentBanner" class="notice hidden"></div>
 
     <div class="card">
-      <input id="scriptName" type="text" placeholder="Nama file (contoh: autofarm.lua atau notes.txt)" style="margin-bottom:12px;" />
-      <textarea id="scriptContent" placeholder="-- Tulis atau tempel script Lua Anda di sini..."></textarea>
+      <input
+        id="scriptName"
+        type="text"
+        placeholder="Nama file (contoh: autofarm.lua atau notes.txt)"
+        style="margin-bottom:12px;"
+      />
+
+      <textarea
+        id="scriptContent"
+        placeholder="-- Tulis atau tempel script Lua Anda di sini..."
+      ></textarea>
+
       <div class="actions" style="margin-top:14px;">
         <button class="btn btn-outline" onclick="closeEditor()">Cancel</button>
         <button class="btn btn-primary" onclick="saveScript()">Save</button>
       </div>
     </div>
+
     <footer><b>Luafrox</b> &bull; Permanent Raw URL Engine</footer>
   </div>
 
+
   <div id="toast" class="toast hidden"></div>
 
-  <script>
-    // === GANTI DENGAN DATA SUPABASE ANDA ===
-    const SUPABASE_URL = "MASUKKAN_SUPABASE_URL_ANDA";
-    const SUPABASE_ANON_KEY = "MASUKKAN_SUPABASE_ANON_KEY_ANDA";
 
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <script>
+    // ==========================================
+    // SUPABASE CONFIGURATION
+    // ==========================================
+
+    const SUPABASE_URL = "https://mmapzaynznnckmjebwyg.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "sb_publishable__4HdUpsXKYfSnPGW2gKLLQ_e1TfFXZ8";
+
+    const sb = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+
     let currentUser = null;
     let allScripts = [];
     let editingRawId = null;
 
+
+    // ==========================================
+    // TOAST
+    // ==========================================
+
     function showToast(msg) {
       const el = document.getElementById("toast");
+
       el.textContent = msg;
       el.classList.remove("hidden");
+
       clearTimeout(window._t);
-      window._t = setTimeout(() => el.classList.add("hidden"), 2800);
+
+      window._t = setTimeout(() => {
+        el.classList.add("hidden");
+      }, 2800);
     }
+
+
+    // ==========================================
+    // RAW URL
+    // ==========================================
 
     function getRawUrl(rawId) {
       return `${location.origin}${location.pathname}?raw=${rawId}`;
     }
 
+
     function generateRawId(len = 8) {
       const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-      return Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+
+      return Array.from(
+        { length: len },
+        () => chars[Math.floor(Math.random() * chars.length)]
+      ).join("");
     }
 
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+
     async function init() {
-      // Mode Raw Plain Text (?raw=xxxx)
       const params = new URLSearchParams(location.search);
       const rawParam = params.get("raw");
+
       if (rawParam) {
         document.body.innerHTML = "";
+
         document.body.style.background = "#090f0c";
         document.body.style.color = "#f3f7f5";
         document.body.style.padding = "16px";
         document.body.style.fontFamily = "monospace";
-        const { data, error } = await sb.from("scripts").select("content").eq("raw_id", rawParam).maybeSingle();
+
+        const { data, error } = await sb
+          .from("scripts")
+          .select("content")
+          .eq("raw_id", rawParam)
+          .maybeSingle();
+
         const pre = document.createElement("pre");
+
         pre.style.whiteSpace = "pre-wrap";
         pre.style.wordBreak = "break-word";
-        pre.textContent = error ? "Error loading raw script" : (data ? data.content : "404: Script not found");
+
+        pre.textContent = error
+          ? "Error loading raw script"
+          : (data ? data.content : "404: Script not found");
+
         document.body.appendChild(pre);
         return;
       }
 
-      const { data: { session } } = await sb.auth.getSession();
+      const {
+        data: { session },
+        error
+      } = await sb.auth.getSession();
+
+      if (error) {
+        showToast(error.message);
+        return;
+      }
+
       if (session) {
         currentUser = session.user;
         showDashboard();
       }
     }
 
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
     async function handleLogin() {
-      const email = document.getElementById("authEmail").value.trim();
-      const password = document.getElementById("authPassword").value;
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) return showToast(error.message);
+      const email = document
+        .getElementById("authEmail")
+        .value.trim();
+
+      const password = document
+        .getElementById("authPassword")
+        .value;
+
+      if (!email || !password) {
+        return showToast("Masukkan email dan password.");
+      }
+
+      const { data, error } = await sb.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        return showToast(error.message);
+      }
+
       currentUser = data.user;
+
       showToast("Login berhasil!");
+
       showDashboard();
     }
 
+
+    // ==========================================
+    // REGISTER
+    // ==========================================
+
     async function handleRegister() {
-      const email = document.getElementById("authEmail").value.trim();
-      const password = document.getElementById("authPassword").value;
-      const { data, error } = await sb.auth.signUp({ email, password });
-      if (error) return showToast(error.message);
+      const email = document
+        .getElementById("authEmail")
+        .value.trim();
+
+      const password = document
+        .getElementById("authPassword")
+        .value;
+
+      if (!email || !password) {
+        return showToast("Masukkan email dan password.");
+      }
+
+      if (password.length < 6) {
+        return showToast("Password minimal 6 karakter.");
+      }
+
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password
+      });
+
+      if (error) {
+        return showToast(error.message);
+      }
+
       if (data.session) {
         currentUser = data.user;
+
         showToast("Akun berhasil dibuat!");
+
         showDashboard();
       } else {
         showToast("Akun dibuat! Cek email untuk konfirmasi lalu Login.");
       }
     }
 
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
     async function handleLogout() {
-      await sb.auth.signOut();
+      const { error } = await sb.auth.signOut();
+
+      if (error) {
+        return showToast(error.message);
+      }
+
       currentUser = null;
+      allScripts = [];
+
       document.getElementById("dashboardView").classList.add("hidden");
       document.getElementById("editorView").classList.add("hidden");
       document.getElementById("authView").classList.remove("hidden");
+
       showToast("Berhasil logout.");
     }
+
+
+    // ==========================================
+    // DASHBOARD
+    // ==========================================
 
     async function showDashboard() {
       document.getElementById("authView").classList.add("hidden");
       document.getElementById("editorView").classList.add("hidden");
       document.getElementById("dashboardView").classList.remove("hidden");
+
       await loadScripts();
     }
 
+
     async function loadScripts() {
+      if (!currentUser) return;
+
       const { data, error } = await sb
         .from("scripts")
         .select("*")
         .eq("user_id", currentUser.id)
         .order("updated_at", { ascending: false });
-      if (error) return showToast(error.message);
+
+      if (error) {
+        return showToast(error.message);
+      }
+
       allScripts = data || [];
-      document.getElementById("totalScripts").textContent = allScripts.length;
-      document.getElementById("totalRawLinks").textContent = allScripts.length;
+
+      document.getElementById("totalScripts").textContent =
+        allScripts.length;
+
+      document.getElementById("totalRawLinks").textContent =
+        allScripts.length;
+
       renderScripts();
     }
 
+
+    // ==========================================
+    // RENDER SCRIPTS
+    // ==========================================
+
     function renderScripts() {
-      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      const q = document
+        .getElementById("searchInput")
+        .value.trim()
+        .toLowerCase();
+
       const filtered = allScripts.filter(s =>
-        s.file_name.toLowerCase().includes(q) || s.raw_id.toLowerCase().includes(q)
+        (s.file_name || "").toLowerCase().includes(q) ||
+        (s.raw_id || "").toLowerCase().includes(q)
       );
+
       const list = document.getElementById("scriptsList");
+
       if (!filtered.length) {
-        list.innerHTML = `<div class="card" style="text-align:center;color:var(--muted);">Belum ada script.</div>`;
+        list.innerHTML = `
+          <div class="card" style="text-align:center;color:var(--muted);">
+            Belum ada script.
+          </div>
+        `;
         return;
       }
+
       list.innerHTML = filtered.map(s => {
         const rawUrl = getRawUrl(s.raw_id);
-        const date = (s.updated_at || "").slice(0, 16).replace("T", " ");
+
+        const date = (s.updated_at || "")
+          .slice(0, 16)
+          .replace("T", " ");
+
+        const safeName = String(s.file_name || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+
         return `
           <div class="card">
+
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+
               <div>
-                <span class="badge">.${s.extension}</span>
-                <strong>${s.file_name.replace(/</g, "&lt;")}</strong>
-                <div style="font-size:12px;color:var(--muted);margin-top:2px;">Last edited: ${date}</div>
+                <span class="badge">.${s.extension || "lua"}</span>
+
+                <strong>${safeName}</strong>
+
+                <div style="font-size:12px;color:var(--muted);margin-top:2px;">
+                  Last edited: ${date}
+                </div>
               </div>
-              <button class="btn btn-danger" style="padding:6px 10px;" onclick="deleteScript('${s.raw_id}')">Hapus</button>
+
+              <button
+                class="btn btn-danger"
+                style="padding:6px 10px;"
+                onclick="deleteScript('${s.raw_id}')"
+              >
+                Hapus
+              </button>
+
             </div>
+
             <div class="raw-box">${rawUrl}</div>
+
             <div class="actions">
-              <button class="btn btn-outline" onclick="copyText('${rawUrl}', 'URL Raw disalin!')">Copy Raw</button>
-              <button class="btn btn-soft" onclick="openEditor('${s.raw_id}')">Edit Raw</button>
+
+              <button
+                class="btn btn-outline"
+                onclick="copyText('${rawUrl}', 'URL Raw disalin!')"
+              >
+                Copy Raw
+              </button>
+
+              <button
+                class="btn btn-soft"
+                onclick="openEditor('${s.raw_id}')"
+              >
+                Edit Raw
+              </button>
+
             </div>
-            <button class="btn btn-primary btn-full" onclick="copyLoadstring('${s.raw_id}')">Copy Loadstring</button>
+
+            <button
+              class="btn btn-primary btn-full"
+              onclick="copyLoadstring('${s.raw_id}')"
+            >
+              Copy Loadstring
+            </button>
+
           </div>
         `;
       }).join("");
     }
 
+
+    // ==========================================
+    // EDITOR
+    // ==========================================
+
     function openEditor(rawId) {
       editingRawId = rawId;
+
       document.getElementById("dashboardView").classList.add("hidden");
       document.getElementById("editorView").classList.remove("hidden");
+
       const banner = document.getElementById("permanentBanner");
+
       if (rawId) {
         const s = allScripts.find(x => x.raw_id === rawId);
-        document.getElementById("editorTitle").textContent = "Edit Raw Script";
-        document.getElementById("scriptName").value = s.file_name;
-        document.getElementById("scriptContent").value = s.content;
-        banner.textContent = "Permanent Raw URL (tidak berubah): " + getRawUrl(rawId);
+
+        if (!s) {
+          showToast("Script tidak ditemukan.");
+          closeEditor();
+          return;
+        }
+
+        document.getElementById("editorTitle").textContent =
+          "Edit Raw Script";
+
+        document.getElementById("scriptName").value =
+          s.file_name;
+
+        document.getElementById("scriptContent").value =
+          s.content;
+
+        banner.textContent =
+          "Permanent Raw URL (tidak berubah): " + getRawUrl(rawId);
+
         banner.classList.remove("hidden");
+
       } else {
-        document.getElementById("editorTitle").textContent = "Create New Script";
+        document.getElementById("editorTitle").textContent =
+          "Create New Script";
+
         document.getElementById("scriptName").value = "";
         document.getElementById("scriptContent").value = "";
+
         banner.classList.add("hidden");
       }
     }
+
 
     function closeEditor() {
       editingRawId = null;
       showDashboard();
     }
 
+
+    // ==========================================
+    // FILE UPLOAD
+    // ==========================================
+
     function handleFileUpload(e) {
       const file = e.target.files[0];
+
       if (!file) return;
+
       const lower = file.name.toLowerCase();
+
       if (!lower.endsWith(".lua") && !lower.endsWith(".txt")) {
-        return showToast("Please use lua or text files (.lua or .txt)");
+        showToast("Please use lua or text files (.lua or .txt)");
+        e.target.value = "";
+        return;
       }
+
       const reader = new FileReader();
+
       reader.onload = () => {
         document.getElementById("scriptName").value = file.name;
-        document.getElementById("scriptContent").value = reader.result;
+
+        document.getElementById("scriptContent").value =
+          reader.result;
+
         showToast("File berhasil dimuat!");
+
+        e.target.value = "";
       };
+
+      reader.onerror = () => {
+        showToast("Gagal membaca file.");
+      };
+
       reader.readAsText(file);
     }
 
+
+    // ==========================================
+    // SAVE SCRIPT
+    // ==========================================
+
     async function saveScript() {
-      let name = document.getElementById("scriptName").value.trim();
-      const content = document.getElementById("scriptContent").value;
-      if (!name) return showToast("Nama file tidak boleh kosong.");
-      if (!name.includes(".")) name += ".lua";
-      const ext = name.toLowerCase().endsWith(".txt") ? "txt" : (name.toLowerCase().endsWith(".lua") ? "lua" : null);
-      if (!ext) return showToast("Please use lua or text files (.lua or .txt)");
+      if (!currentUser) {
+        return showToast("Silakan login terlebih dahulu.");
+      }
+
+      let name = document
+        .getElementById("scriptName")
+        .value.trim();
+
+      const content = document
+        .getElementById("scriptContent")
+        .value;
+
+      if (!name) {
+        return showToast("Nama file tidak boleh kosong.");
+      }
+
+      if (!name.includes(".")) {
+        name += ".lua";
+      }
+
+      const ext = name.toLowerCase().endsWith(".txt")
+        ? "txt"
+        : (
+            name.toLowerCase().endsWith(".lua")
+              ? "lua"
+              : null
+          );
+
+      if (!ext) {
+        return showToast("Please use lua or text files (.lua or .txt)");
+      }
 
       if (editingRawId) {
-        // UPDATE IN PLACE — Permanent Raw ID tidak berubah!
-        const { error } = await sb.from("scripts")
-          .update({ file_name: name, extension: ext, content })
-          .eq("raw_id", editingRawId);
-        if (error) return showToast(error.message);
+
+        // UPDATE IN PLACE
+        // Raw ID tidak berubah.
+
+        const { error } = await sb
+          .from("scripts")
+          .update({
+            file_name: name,
+            extension: ext,
+            content: content
+          })
+          .eq("raw_id", editingRawId)
+          .eq("user_id", currentUser.id);
+
+        if (error) {
+          return showToast(error.message);
+        }
+
         showToast("Script diperbarui! Raw URL tetap sama.");
+
       } else {
+
         const rawId = generateRawId();
-        const { error } = await sb.from("scripts").insert({
-          raw_id: rawId, user_id: currentUser.id, file_name: name, extension: ext, content
-        });
-        if (error) return showToast(error.message);
+
+        const { error } = await sb
+          .from("scripts")
+          .insert({
+            raw_id: rawId,
+            user_id: currentUser.id,
+            file_name: name,
+            extension: ext,
+            content: content
+          });
+
+        if (error) {
+          return showToast(error.message);
+        }
+
         showToast("Script disimpan! Raw ID: " + rawId);
       }
-      closeEditor();
+
+      editingRawId = null;
+
+      await showDashboard();
     }
+
+
+    // ==========================================
+    // DELETE SCRIPT
+    // ==========================================
 
     async function deleteScript(rawId) {
-      if (!confirm("Yakin hapus script ini? Raw URL akan tidak bisa diakses lagi.")) return;
-      const { error } = await sb.from("scripts").delete().eq("raw_id", rawId);
-      if (error) return showToast(error.message);
+      if (!currentUser) return;
+
+      if (!confirm("Yakin hapus script ini? Raw URL akan tidak bisa diakses lagi.")) {
+        return;
+      }
+
+      const { error } = await sb
+        .from("scripts")
+        .delete()
+        .eq("raw_id", rawId)
+        .eq("user_id", currentUser.id);
+
+      if (error) {
+        return showToast(error.message);
+      }
+
       showToast("Script dihapus.");
-      loadScripts();
+
+      await loadScripts();
     }
 
-    function copyText(text, msg) {
-      navigator.clipboard.writeText(text).then(() => showToast(msg));
+
+    // ==========================================
+    // COPY
+    // ==========================================
+
+    async function copyText(text, msg) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(msg);
+      } catch (error) {
+        showToast("Gagal menyalin. Coba melalui HTTPS.");
+      }
     }
+
 
     function copyLoadstring(rawId) {
-      const snippet = `loadstring(game:HttpGet("${getRawUrl(rawId)}"))()`;
+      const snippet =
+        `loadstring(game:HttpGet("${getRawUrl(rawId)}"))()`;
+
       copyText(snippet, "Loadstring disalin!");
     }
 
+
+    // ==========================================
+    // START APP
+    // ==========================================
+
     init();
+
   </script>
+
 </body>
 </html>

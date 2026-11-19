@@ -1,945 +1,524 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luafrox — Permanent Raw Lua Hosting</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --bg: #090f0c;
-      --surface: #111b16;
-      --surface-2: #16241d;
-      --border: #22362c;
-      --primary: #10b981;
-      --primary-hover: #059669;
-      --primary-soft: rgba(16, 185, 129, 0.14);
-      --text: #f3f7f5;
-      --muted: #94a89e;
-      --danger: #ef4444;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-    }
-
-    .container {
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
-
-    .hidden { display: none !important; }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      gap: 12px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 20px;
-    }
-
-    .brand-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: var(--primary-soft);
-      border: 1px solid rgba(16,185,129,0.4);
-      color: var(--primary);
-      display: grid;
-      place-items: center;
-      font-family: var(--mono);
-    }
-
-    .brand span { color: var(--primary); }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 11px 16px;
-      border-radius: 10px;
-      border: 1px solid transparent;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #042016;
-    }
-
-    .btn-primary:hover { background: var(--primary-hover); }
-
-    .btn-outline {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .btn-soft {
-      background: var(--primary-soft);
-      color: var(--primary);
-    }
-
-    .btn-danger {
-      background: rgba(239,68,68,0.14);
-      color: var(--danger);
-    }
-
-    .btn-full { width: 100%; }
-
-    input, textarea {
-      width: 100%;
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    input:focus, textarea:focus { border-color: var(--primary); }
-
-    textarea {
-      font-family: var(--mono);
-      font-size: 13px;
-      min-height: 300px;
-      resize: vertical;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .stat-val {
-      font-size: 26px;
-      font-weight: 700;
-      margin-top: 4px;
-    }
-
-    .notice {
-      background: var(--primary-soft);
-      border: 1px solid rgba(16,185,129,0.35);
-      color: #6ee7b7;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      margin-bottom: 16px;
-    }
-
-    .raw-box {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      background: var(--surface-2);
-      padding: 8px 10px;
-      border-radius: 8px;
-      margin: 10px 0;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .badge {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 11px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-right: 8px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--surface-2);
-      border: 1px solid var(--primary);
-      color: var(--text);
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-size: 13px;
-      z-index: 999;
-      max-width: 92vw;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 28px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-    }
-
-    footer b { color: var(--primary); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LuaFrox</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080d0b;color:#e8f5ed;
+ font-family:Arial,sans-serif;min-height:100vh;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+header{
+ height:65px;padding:0 18px;display:flex;
+ align-items:center;justify-content:space-between;
+ border-bottom:1px solid #1b3025;background:#0b120e;
+ position:sticky;top:0;z-index:5
+}
+.logo{font-size:23px;font-weight:bold;color:#51e69a}
+.logo span{color:white}
+.small{color:#8da99a;font-size:12px}
+.container{width:min(680px,92%);margin:30px auto}
+.card{
+ background:#101a14;border:1px solid #233b2c;
+ border-radius:15px;padding:20px;margin-bottom:17px;
+}
+h2{margin-top:0}
+input,textarea{
+ width:100%;background:#0a110d;color:white;
+ border:1px solid #294434;border-radius:9px;
+ padding:13px;outline:none;margin:7px 0;
+}
+input:focus,textarea:focus{border-color:#4be394}
+textarea{
+ min-height:220px;resize:vertical;
+ font-family:monospace;line-height:1.6;
+}
+.btn{
+ background:#35c77b;color:#06140c;
+ padding:12px 16px;border-radius:9px;
+ font-weight:bold;transition:.2s;
+}
+.btn:active{transform:scale(.97)}
+.btn.secondary{
+ background:#1b3024;color:#b8f5d0;
+ border:1px solid #315640;
+}
+.btn.danger{background:#542323;color:#ffb5b5}
+.full{width:100%;margin-top:9px}
+.row{display:flex;gap:9px;flex-wrap:wrap}
+.row>*{flex:1}
+.tabs{display:flex;gap:8px;margin-bottom:15px}
+.tabs button{flex:1}
+.filebox{
+ border:1px dashed #47775a;border-radius:12px;
+ padding:22px;text-align:center;color:#8fbea1;
+ margin:12px 0;
+}
+.script{
+ background:#0b130e;border:1px solid #294434;
+ border-radius:11px;padding:14px;margin-top:10px;
+}
+.script h3{margin:0 0 7px}
+.script small{color:#8da99a}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.actions button{font-size:12px;padding:9px}
+#toast{
+ position:fixed;bottom:20px;left:50%;
+ transform:translateX(-50%);
+ background:#244c35;padding:12px 18px;
+ border-radius:10px;z-index:20;
+ opacity:0;pointer-events:none;transition:.25s;
+ max-width:90%;text-align:center
+}
+#toast.show{opacity:1}
+#splash{
+ position:fixed;inset:0;background:#080d0b;
+ display:flex;align-items:center;justify-content:center;
+ z-index:30;flex-direction:column;
+ animation:fadeout .7s ease 1.5s forwards;
+}
+.splashlogo{
+ font-size:42px;font-weight:bold;color:#50e99a;
+ animation:pop .8s ease;
+}
+.splashlogo span{color:white}
+@keyframes pop{
+ from{opacity:0;transform:scale(.7)}
+ to{opacity:1;transform:scale(1)}
+}
+@keyframes fadeout{
+ to{opacity:0;visibility:hidden;pointer-events:none}
+}
+.muted{color:#8da99a;font-size:13px}
+h2{color:#baf5d0}
+#editorTitle{margin-bottom:4px}
+@media(max-width:430px){
+ .container{margin:18px auto}
+ .card{padding:15px}
+ .actions button{flex:1}
+}
+</style>
 </head>
-
 <body>
 
-  <!-- AUTH VIEW -->
-  <div id="authView" class="container">
-    <div style="text-align:center; margin: 24px 0;">
-      <div class="brand" style="justify-content:center; font-size:26px;">
-        <div class="brand-icon">&lt;/&gt;</div> Lua<span>frox</span>
-      </div>
+<div id="splash">
+ <div class="splashlogo">⚡Lua<span>Frox</span></div>
+ <p class="muted">SCRIPT HOSTING PLATFORM</p>
+</div>
 
-      <p style="color:var(--muted); margin-top:8px; font-size:14px;">
-        Store, Edit &amp; Share Lua Scripts with Permanent Raw URLs
-      </p>
-    </div>
+<header>
+ <div class="logo">⚡Lua<span>Frox</span></div>
+ <button id="logout" class="btn secondary hidden">Logout</button>
+</header>
 
-    <div class="card">
-      <h3 style="margin-bottom:14px;">Login atau Register</h3>
+<div class="container">
 
-      <input
-        id="authEmail"
-        type="email"
-        placeholder="Email"
-        style="margin-bottom:10px;"
-      />
+<!-- AUTH -->
+<section id="auth">
+ <div class="card">
+  <h2 id="authTitle">Welcome to LuaFrox</h2>
+  <p class="muted" id="authDesc">Login untuk melanjutkan.</p>
+  <div class="tabs">
+   <button class="btn" id="loginTab">Login</button>
+   <button class="btn secondary" id="registerTab">Register</button>
+  </div>
+  <input id="username" placeholder="Username" maxlength="24" autocomplete="username">
+  <input id="password" type="password" placeholder="Password" autocomplete="current-password">
+  <button class="btn full" id="authBtn">LOGIN</button>
+  <p class="muted">Tidak perlu Gmail. Gunakan username dan password LuaFrox.</p>
+ </div>
+</section>
 
-      <input
-        id="authPassword"
-        type="password"
-        placeholder="Password (min. 6 karakter)"
-        style="margin-bottom:14px;"
-      />
+<!-- APP -->
+<section id="app" class="hidden">
+ <div class="card">
+  <h2 id="welcome">Dashboard</h2>
+  <p class="muted">Upload file Lua atau text, atau tempel script panjang di editor.</p>
 
-      <div class="actions">
-        <button class="btn btn-primary" onclick="handleLogin()">Login</button>
-        <button class="btn btn-outline" onclick="handleRegister()">Register</button>
-      </div>
-    </div>
+  <input id="scriptName" placeholder="Nama script">
 
-    <footer><b>Luafrox</b> &bull; Permanent Raw URL Engine</footer>
+  <div class="filebox">
+   <div style="font-size:30px">📁</div>
+   <b>Please use Lua or text</b>
+   <p class="muted">Pilih file .lua atau .txt</p>
+   <input type="file" id="fileInput" accept=".lua,.txt,text/plain" style="margin-top:12px">
   </div>
 
+  <textarea id="codeInput" placeholder="Tempel script Lua atau text panjang di sini..."></textarea>
 
-  <!-- DASHBOARD VIEW -->
-  <div id="dashboardView" class="container hidden">
+  <button class="btn full" id="saveBtn">⬆ Upload Script</button>
+ </div>
 
-    <div class="header">
-      <div class="brand">
-        <div class="brand-icon">&lt;/&gt;</div>
-        Lua<span>frox</span>
-      </div>
-
-      <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
-    </div>
-
-    <div class="grid-2">
-      <div class="card" style="margin:0;">
-        <div class="stat-label">Total Scripts</div>
-        <div id="totalScripts" class="stat-val">0</div>
-      </div>
-
-      <div class="card" style="margin:0;">
-        <div class="stat-label">Total Raw Links</div>
-        <div id="totalRawLinks" class="stat-val">0</div>
-      </div>
-    </div>
-
-    <button
-      class="btn btn-primary btn-full"
-      style="margin-bottom:14px;"
-      onclick="openEditor(null)"
-    >
-      + Create New Script
-    </button>
-
-    <div class="notice">Please use lua or text files</div>
-
-    <input
-      id="searchInput"
-      type="text"
-      placeholder="Search scripts..."
-      oninput="renderScripts()"
-      style="margin-bottom:16px;"
-    />
-
-    <div id="scriptsList"></div>
-
-    <footer><b>Luafrox</b> &bull; Permanent Raw URL Engine</footer>
+ <div class="card">
+  <h2 id="editorTitle">Your Scripts</h2>
+  <p class="muted">Daftar script yang tersimpan di LuaFrox.</p>
+  <div id="scriptList">
+   <p class="muted">Memuat script...</p>
   </div>
+ </div>
 
-
-  <!-- EDITOR VIEW -->
-  <div id="editorView" class="container hidden">
-
-    <div class="header">
-      <div class="brand">
-        <div class="brand-icon">&lt;/&gt;</div>
-        <span id="editorTitle" style="color:var(--text);">Create Script</span>
-      </div>
-
-      <label class="btn btn-outline" style="cursor:pointer;">
-        Upload .lua/.txt
-        <input
-          id="fileInput"
-          type="file"
-          accept=".lua,.txt,text/plain"
-          class="hidden"
-          onchange="handleFileUpload(event)"
-        />
-      </label>
-    </div>
-
-    <div id="permanentBanner" class="notice hidden"></div>
-
-    <div class="card">
-      <input
-        id="scriptName"
-        type="text"
-        placeholder="Nama file (contoh: autofarm.lua atau notes.txt)"
-        style="margin-bottom:12px;"
-      />
-
-      <textarea
-        id="scriptContent"
-        placeholder="-- Tulis atau tempel script Lua Anda di sini..."
-      ></textarea>
-
-      <div class="actions" style="margin-top:14px;">
-        <button class="btn btn-outline" onclick="closeEditor()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveScript()">Save</button>
-      </div>
-    </div>
-
-    <footer><b>Luafrox</b> &bull; Permanent Raw URL Engine</footer>
+ <div class="card hidden" id="rawCard">
+  <h2 id="rawTitle">View Raw</h2>
+  <textarea id="rawEditor" spellcheck="false"></textarea>
+  <div class="row">
+   <button class="btn secondary" id="closeRaw">Tutup</button>
+   <button class="btn" id="updateRaw">Simpan Edit</button>
   </div>
-
-
-  <div id="toast" class="toast hidden"></div>
-
-
-  <script>
-    // ==========================================
-    // SUPABASE CONFIGURATION
-    // ==========================================
-
-    const SUPABASE_URL = "https://mmapzaynznnckmjebwyg.supabase.co";
-
-    const SUPABASE_ANON_KEY =
-      "sb_publishable__4HdUpsXKYfSnPGW2gKLLQ_e1TfFXZ8";
-
-    const sb = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
-
-
-    let currentUser = null;
-    let allScripts = [];
-    let editingRawId = null;
-
-
-    // ==========================================
-    // TOAST
-    // ==========================================
-
-    function showToast(msg) {
-      const el = document.getElementById("toast");
-
-      el.textContent = msg;
-      el.classList.remove("hidden");
-
-      clearTimeout(window._t);
-
-      window._t = setTimeout(() => {
-        el.classList.add("hidden");
-      }, 2800);
-    }
-
-
-    // ==========================================
-    // RAW URL
-    // ==========================================
-
-    function getRawUrl(rawId) {
-      return `${location.origin}${location.pathname}?raw=${rawId}`;
-    }
-
-
-    function generateRawId(len = 8) {
-      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-      return Array.from(
-        { length: len },
-        () => chars[Math.floor(Math.random() * chars.length)]
-      ).join("");
-    }
-
-
-    // ==========================================
-    // INITIALIZATION
-    // ==========================================
-
-    async function init() {
-      const params = new URLSearchParams(location.search);
-      const rawParam = params.get("raw");
-
-      if (rawParam) {
-        document.body.innerHTML = "";
-
-        document.body.style.background = "#090f0c";
-        document.body.style.color = "#f3f7f5";
-        document.body.style.padding = "16px";
-        document.body.style.fontFamily = "monospace";
-
-        const { data, error } = await sb
-          .from("scripts")
-          .select("content")
-          .eq("raw_id", rawParam)
-          .maybeSingle();
-
-        const pre = document.createElement("pre");
-
-        pre.style.whiteSpace = "pre-wrap";
-        pre.style.wordBreak = "break-word";
-
-        pre.textContent = error
-          ? "Error loading raw script"
-          : (data ? data.content : "404: Script not found");
-
-        document.body.appendChild(pre);
-        return;
-      }
-
-      const {
-        data: { session },
-        error
-      } = await sb.auth.getSession();
-
-      if (error) {
-        showToast(error.message);
-        return;
-      }
-
-      if (session) {
-        currentUser = session.user;
-        showDashboard();
-      }
-    }
-
-
-    // ==========================================
-    // LOGIN
-    // ==========================================
-
-    async function handleLogin() {
-      const email = document
-        .getElementById("authEmail")
-        .value.trim();
-
-      const password = document
-        .getElementById("authPassword")
-        .value;
-
-      if (!email || !password) {
-        return showToast("Masukkan email dan password.");
-      }
-
-      const { data, error } = await sb.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        return showToast(error.message);
-      }
-
-      currentUser = data.user;
-
-      showToast("Login berhasil!");
-
-      showDashboard();
-    }
-
-
-    // ==========================================
-    // REGISTER
-    // ==========================================
-
-    async function handleRegister() {
-      const email = document
-        .getElementById("authEmail")
-        .value.trim();
-
-      const password = document
-        .getElementById("authPassword")
-        .value;
-
-      if (!email || !password) {
-        return showToast("Masukkan email dan password.");
-      }
-
-      if (password.length < 6) {
-        return showToast("Password minimal 6 karakter.");
-      }
-
-      const { data, error } = await sb.auth.signUp({
-        email,
-        password
-      });
-
-      if (error) {
-        return showToast(error.message);
-      }
-
-      if (data.session) {
-        currentUser = data.user;
-
-        showToast("Akun berhasil dibuat!");
-
-        showDashboard();
-      } else {
-        showToast("Akun dibuat! Cek email untuk konfirmasi lalu Login.");
-      }
-    }
-
-
-    // ==========================================
-    // LOGOUT
-    // ==========================================
-
-    async function handleLogout() {
-      const { error } = await sb.auth.signOut();
-
-      if (error) {
-        return showToast(error.message);
-      }
-
-      currentUser = null;
-      allScripts = [];
-
-      document.getElementById("dashboardView").classList.add("hidden");
-      document.getElementById("editorView").classList.add("hidden");
-      document.getElementById("authView").classList.remove("hidden");
-
-      showToast("Berhasil logout.");
-    }
-
-
-    // ==========================================
-    // DASHBOARD
-    // ==========================================
-
-    async function showDashboard() {
-      document.getElementById("authView").classList.add("hidden");
-      document.getElementById("editorView").classList.add("hidden");
-      document.getElementById("dashboardView").classList.remove("hidden");
-
-      await loadScripts();
-    }
-
-
-    async function loadScripts() {
-      if (!currentUser) return;
-
-      const { data, error } = await sb
-        .from("scripts")
-        .select("*")
-        .eq("user_id", currentUser.id)
-        .order("updated_at", { ascending: false });
-
-      if (error) {
-        return showToast(error.message);
-      }
-
-      allScripts = data || [];
-
-      document.getElementById("totalScripts").textContent =
-        allScripts.length;
-
-      document.getElementById("totalRawLinks").textContent =
-        allScripts.length;
-
-      renderScripts();
-    }
-
-
-    // ==========================================
-    // RENDER SCRIPTS
-    // ==========================================
-
-    function renderScripts() {
-      const q = document
-        .getElementById("searchInput")
-        .value.trim()
-        .toLowerCase();
-
-      const filtered = allScripts.filter(s =>
-        (s.file_name || "").toLowerCase().includes(q) ||
-        (s.raw_id || "").toLowerCase().includes(q)
-      );
-
-      const list = document.getElementById("scriptsList");
-
-      if (!filtered.length) {
-        list.innerHTML = `
-          <div class="card" style="text-align:center;color:var(--muted);">
-            Belum ada script.
-          </div>
-        `;
-        return;
-      }
-
-      list.innerHTML = filtered.map(s => {
-        const rawUrl = getRawUrl(s.raw_id);
-
-        const date = (s.updated_at || "")
-          .slice(0, 16)
-          .replace("T", " ");
-
-        const safeName = String(s.file_name || "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-
-        return `
-          <div class="card">
-
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
-
-              <div>
-                <span class="badge">.${s.extension || "lua"}</span>
-
-                <strong>${safeName}</strong>
-
-                <div style="font-size:12px;color:var(--muted);margin-top:2px;">
-                  Last edited: ${date}
-                </div>
-              </div>
-
-              <button
-                class="btn btn-danger"
-                style="padding:6px 10px;"
-                onclick="deleteScript('${s.raw_id}')"
-              >
-                Hapus
-              </button>
-
-            </div>
-
-            <div class="raw-box">${rawUrl}</div>
-
-            <div class="actions">
-
-              <button
-                class="btn btn-outline"
-                onclick="copyText('${rawUrl}', 'URL Raw disalin!')"
-              >
-                Copy Raw
-              </button>
-
-              <button
-                class="btn btn-soft"
-                onclick="openEditor('${s.raw_id}')"
-              >
-                Edit Raw
-              </button>
-
-            </div>
-
-            <button
-              class="btn btn-primary btn-full"
-              onclick="copyLoadstring('${s.raw_id}')"
-            >
-              Copy Loadstring
-            </button>
-
-          </div>
-        `;
-      }).join("");
-    }
-
-
-    // ==========================================
-    // EDITOR
-    // ==========================================
-
-    function openEditor(rawId) {
-      editingRawId = rawId;
-
-      document.getElementById("dashboardView").classList.add("hidden");
-      document.getElementById("editorView").classList.remove("hidden");
-
-      const banner = document.getElementById("permanentBanner");
-
-      if (rawId) {
-        const s = allScripts.find(x => x.raw_id === rawId);
-
-        if (!s) {
-          showToast("Script tidak ditemukan.");
-          closeEditor();
-          return;
-        }
-
-        document.getElementById("editorTitle").textContent =
-          "Edit Raw Script";
-
-        document.getElementById("scriptName").value =
-          s.file_name;
-
-        document.getElementById("scriptContent").value =
-          s.content;
-
-        banner.textContent =
-          "Permanent Raw URL (tidak berubah): " + getRawUrl(rawId);
-
-        banner.classList.remove("hidden");
-
-      } else {
-        document.getElementById("editorTitle").textContent =
-          "Create New Script";
-
-        document.getElementById("scriptName").value = "";
-        document.getElementById("scriptContent").value = "";
-
-        banner.classList.add("hidden");
-      }
-    }
-
-
-    function closeEditor() {
-      editingRawId = null;
-      showDashboard();
-    }
-
-
-    // ==========================================
-    // FILE UPLOAD
-    // ==========================================
-
-    function handleFileUpload(e) {
-      const file = e.target.files[0];
-
-      if (!file) return;
-
-      const lower = file.name.toLowerCase();
-
-      if (!lower.endsWith(".lua") && !lower.endsWith(".txt")) {
-        showToast("Please use lua or text files (.lua or .txt)");
-        e.target.value = "";
-        return;
-      }
-
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        document.getElementById("scriptName").value = file.name;
-
-        document.getElementById("scriptContent").value =
-          reader.result;
-
-        showToast("File berhasil dimuat!");
-
-        e.target.value = "";
-      };
-
-      reader.onerror = () => {
-        showToast("Gagal membaca file.");
-      };
-
-      reader.readAsText(file);
-    }
-
-
-    // ==========================================
-    // SAVE SCRIPT
-    // ==========================================
-
-    async function saveScript() {
-      if (!currentUser) {
-        return showToast("Silakan login terlebih dahulu.");
-      }
-
-      let name = document
-        .getElementById("scriptName")
-        .value.trim();
-
-      const content = document
-        .getElementById("scriptContent")
-        .value;
-
-      if (!name) {
-        return showToast("Nama file tidak boleh kosong.");
-      }
-
-      if (!name.includes(".")) {
-        name += ".lua";
-      }
-
-      const ext = name.toLowerCase().endsWith(".txt")
-        ? "txt"
-        : (
-            name.toLowerCase().endsWith(".lua")
-              ? "lua"
-              : null
-          );
-
-      if (!ext) {
-        return showToast("Please use lua or text files (.lua or .txt)");
-      }
-
-      if (editingRawId) {
-
-        // UPDATE IN PLACE
-        // Raw ID tidak berubah.
-
-        const { error } = await sb
-          .from("scripts")
-          .update({
-            file_name: name,
-            extension: ext,
-            content: content
-          })
-          .eq("raw_id", editingRawId)
-          .eq("user_id", currentUser.id);
-
-        if (error) {
-          return showToast(error.message);
-        }
-
-        showToast("Script diperbarui! Raw URL tetap sama.");
-
-      } else {
-
-        const rawId = generateRawId();
-
-        const { error } = await sb
-          .from("scripts")
-          .insert({
-            raw_id: rawId,
-            user_id: currentUser.id,
-            file_name: name,
-            extension: ext,
-            content: content
-          });
-
-        if (error) {
-          return showToast(error.message);
-        }
-
-        showToast("Script disimpan! Raw ID: " + rawId);
-      }
-
-      editingRawId = null;
-
-      await showDashboard();
-    }
-
-
-    // ==========================================
-    // DELETE SCRIPT
-    // ==========================================
-
-    async function deleteScript(rawId) {
-      if (!currentUser) return;
-
-      if (!confirm("Yakin hapus script ini? Raw URL akan tidak bisa diakses lagi.")) {
-        return;
-      }
-
-      const { error } = await sb
-        .from("scripts")
-        .delete()
-        .eq("raw_id", rawId)
-        .eq("user_id", currentUser.id);
-
-      if (error) {
-        return showToast(error.message);
-      }
-
-      showToast("Script dihapus.");
-
-      await loadScripts();
-    }
-
-
-    // ==========================================
-    // COPY
-    // ==========================================
-
-    async function copyText(text, msg) {
-      try {
-        await navigator.clipboard.writeText(text);
-        showToast(msg);
-      } catch (error) {
-        showToast("Gagal menyalin. Coba melalui HTTPS.");
-      }
-    }
-
-
-    function copyLoadstring(rawId) {
-      const snippet =
-        `loadstring(game:HttpGet("${getRawUrl(rawId)}"))()`;
-
-      copyText(snippet, "Loadstring disalin!");
-    }
-
-
-    // ==========================================
-    // START APP
-    // ==========================================
-
-    init();
-
-  </script>
-
+ </div>
+</section>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SUPABASE_URL = "https://unxkylquhxjhgnipkpmz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_PE_CEu1D0EbuiJPymkY-6w_MLzONHRu";
+
+const db = window.supabase.createClient(
+ SUPABASE_URL,
+ SUPABASE_KEY
+);
+
+const $ = id => document.getElementById(id);
+
+let mode = "login";
+let currentUser = null;
+let currentScript = null;
+let currentRawUrl = null;
+let currentRawText = "";
+
+function toast(message){
+ const el=$("toast");
+ el.textContent=message;
+ el.classList.add("show");
+ setTimeout(()=>el.classList.remove("show"),2600);
+}
+
+function safe(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+function switchMode(newMode){
+ mode=newMode;
+ $("authTitle").textContent=mode==="login"?"Welcome to LuaFrox":"Create Account";
+ $("authDesc").textContent=mode==="login"?"Login untuk melanjutkan.":"Buat akun LuaFrox baru.";
+ $("authBtn").textContent=mode==="login"?"LOGIN":"REGISTER";
+ $("loginTab").className=mode==="login"?"btn":"btn secondary";
+ $("registerTab").className=mode==="register"?"btn":"btn secondary";
+}
+
+$("loginTab").onclick=()=>switchMode("login");
+$("registerTab").onclick=()=>switchMode("register");
+
+function makeEmail(username){
+ return username.toLowerCase()+"@luafrox.app";
+}
+
+$("authBtn").onclick=async()=>{
+ const username=$("username").value.trim().toLowerCase();
+ const password=$("password").value;
+
+ if(!/^[a-z0-9_]{3,24}$/.test(username)){
+  return toast("Username 3-24 karakter: huruf, angka, underscore.");
+ }
+ if(password.length<6){
+  return toast("Password minimal 6 karakter.");
+ }
+
+ $("authBtn").disabled=true;
+ $("authBtn").textContent="PLEASE WAIT...";
+
+ try{
+  const email=makeEmail(username);
+
+  if(mode==="register"){
+   const {data,error}=await db.auth.signUp({
+    email,password,
+    options:{data:{username}}
+   });
+   if(error) throw error;
+
+   if(!data.session){
+    toast("Akun dibuat. Periksa pengaturan Confirm Email Supabase.");
+   }else{
+    toast("Register berhasil!");
+   }
+  }else{
+   const {error}=await db.auth.signInWithPassword({
+    email,password
+   });
+   if(error) throw error;
+   toast("Login berhasil!");
+  }
+ }catch(e){
+  toast(e.message||"Terjadi kesalahan.");
+ }finally{
+  $("authBtn").disabled=false;
+  $("authBtn").textContent=mode==="login"?"LOGIN":"REGISTER";
+ }
+};
+
+async function showApp(user){
+ currentUser=user;
+ $("auth").classList.add("hidden");
+ $("app").classList.remove("hidden");
+ $("logout").classList.remove("hidden");
+
+ const username=user.user_metadata?.username||"User";
+ $("welcome").textContent="Welcome, "+username+" 👋";
+ await loadScripts();
+}
+
+async function showAuth(){
+ currentUser=null;
+ $("auth").classList.remove("hidden");
+ $("app").classList.add("hidden");
+ $("logout").classList.add("hidden");
+ $("rawCard").classList.add("hidden");
+}
+
+$("logout").onclick=async()=>{
+ await db.auth.signOut();
+ toast("Berhasil logout.");
+};
+
+async function loadScripts(){
+ $("scriptList").innerHTML='<p class="muted">Memuat...</p>';
+
+ const {data,error}=await db
+  .from("scripts")
+  .select("*")
+  .order("created_at",{ascending:false});
+
+ if(error){
+  $("scriptList").textContent="Gagal memuat: "+error.message;
+  return;
+ }
+
+ if(!data.length){
+  $("scriptList").innerHTML='<p class="muted">Belum ada script. Upload script pertamamu!</p>';
+  return;
+ }
+
+ $("scriptList").innerHTML="";
+
+ data.forEach(script=>{
+  const item=document.createElement("div");
+  item.className="script";
+  item.innerHTML=`
+   <h3>${safe(script.title)}</h3>
+   <small>File .${safe(script.extension)}</small>
+   <div class="actions">
+    <button class="btn secondary view">View Raw</button>
+    <button class="btn secondary edit">Edit Raw</button>
+    <button class="btn copy">Copy Loadstring</button>
+    ${script.user_id===currentUser.id?'<button class="btn danger delete">Hapus</button>':''}
+   </div>
+  `;
+
+  item.querySelector(".view").onclick=()=>openRaw(script,false);
+  item.querySelector(".edit").onclick=()=>{
+   if(script.user_id!==currentUser.id)return toast("Bukan script milikmu.");
+   openRaw(script,true);
+  };
+  item.querySelector(".copy").onclick=()=>copyLoadstring(script);
+
+  const del=item.querySelector(".delete");
+  if(del)del.onclick=()=>deleteScript(script);
+
+  $("scriptList").appendChild(item);
+ });
+}
+
+async function uploadScript(){
+ if(!currentUser)return;
+
+ const file=$("fileInput").files[0];
+ let content=$("codeInput").value;
+ let extension="lua";
+ let title=$("scriptName").value.trim();
+
+ if(file){
+  extension=file.name.toLowerCase().endsWith(".txt")?"txt":"lua";
+  content=await file.text();
+  if(!title)title=file.name.replace(/\.(lua|txt)$/i,"");
+ }else if(!title){
+  return toast("Masukkan nama script.");
+ }
+
+ if(!content.trim())return toast("Script masih kosong.");
+ if(!["lua","txt"].includes(extension))return toast("File harus .lua atau .txt");
+
+ $("saveBtn").disabled=true;
+ $("saveBtn").textContent="UPLOADING...";
+
+ try{
+  const id=crypto.randomUUID();
+  const path=currentUser.id+"/"+id+"."+extension;
+
+  const {error:uploadError}=await db.storage
+   .from("luafrox-scripts")
+   .upload(path,new Blob([content],{type:"text/plain;charset=utf-8"}),{
+    contentType:"text/plain",
+    upsert:false
+   });
+
+  if(uploadError)throw uploadError;
+
+  const {error:insertError}=await db
+   .from("scripts")
+   .insert({
+    user_id:currentUser.id,
+    title,
+    extension,
+    storage_path:path
+   });
+
+  if(insertError){
+   await db.storage.from("luafrox-scripts").remove([path]);
+   throw insertError;
+  }
+
+  $("scriptName").value="";
+  $("codeInput").value="";
+  $("fileInput").value="";
+  toast("Script berhasil di-upload!");
+  await loadScripts();
+
+ }catch(e){
+  toast("Upload gagal: "+e.message);
+ }finally{
+  $("saveBtn").disabled=false;
+  $("saveBtn").textContent="⬆ Upload Script";
+ }
+}
+
+$("saveBtn").onclick=uploadScript;
+
+function getRawUrl(script){
+ return db.storage
+  .from("luafrox-scripts")
+  .getPublicUrl(script.storage_path).data.publicUrl;
+}
+
+async function openRaw(script,editable){
+ currentScript=script;
+ currentRawUrl=getRawUrl(script);
+
+ $("rawCard").classList.remove("hidden");
+ $("rawTitle").textContent=(editable?"Edit Raw: ":"View Raw: ")+script.title;
+ $("rawEditor").readOnly=!editable;
+ $("updateRaw").classList.toggle("hidden",!editable);
+ $("rawEditor").value="Loading...";
+
+ try{
+  const response=await fetch(currentRawUrl);
+  if(!response.ok)throw new Error("Raw file tidak ditemukan.");
+  currentRawText=await response.text();
+  $("rawEditor").value=currentRawText;
+  $("rawCard").scrollIntoView({behavior:"smooth"});
+ }catch(e){
+  $("rawEditor").value="";
+  toast(e.message);
+ }
+}
+
+$("closeRaw").onclick=()=>{
+ $("rawCard").classList.add("hidden");
+ currentScript=null;
+};
+
+$("updateRaw").onclick=async()=>{
+ if(!currentScript||currentScript.user_id!==currentUser.id)return;
+ const content=$("rawEditor").value;
+ if(!content.trim())return toast("Script tidak boleh kosong.");
+
+ $("updateRaw").disabled=true;
+ try{
+  const {error}=await db.storage
+   .from("luafrox-scripts")
+   .upload(currentScript.storage_path,
+    new Blob([content],{type:"text/plain;charset=utf-8"}),
+    {upsert:true,contentType:"text/plain"}
+   );
+
+  if(error)throw error;
+
+  await db.from("scripts")
+   .update({updated_at:new Date().toISOString()})
+   .eq("id",currentScript.id);
+
+  toast("Raw berhasil diperbarui!");
+  $("rawCard").classList.add("hidden");
+  await loadScripts();
+ }catch(e){
+  toast("Edit gagal: "+e.message);
+ }finally{
+  $("updateRaw").disabled=false;
+ }
+};
+
+async function copyLoadstring(script){
+ const url=getRawUrl(script);
+ const code=`loadstring(game:HttpGet("${url}"))()`;
+ try{
+  await navigator.clipboard.writeText(code);
+  toast("Loadstring berhasil disalin!");
+ }catch(e){
+  const area=document.createElement("textarea");
+  area.value=code;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand("copy");
+  area.remove();
+  toast("Loadstring berhasil disalin!");
+ }
+}
+
+async function deleteScript(script){
+ if(!confirm("Hapus script "+script.title+"?"))return;
+
+ try{
+  const {error:storageError}=await db.storage
+   .from("luafrox-scripts")
+   .remove([script.storage_path]);
+
+  if(storageError)throw storageError;
+
+  const {error}=await db.from("scripts")
+   .delete().eq("id",script.id);
+
+  if(error)throw error;
+
+  toast("Script berhasil dihapus.");
+  await loadScripts();
+ }catch(e){
+  toast("Gagal menghapus: "+e.message);
+ }
+}
+
+db.auth.onAuthStateChange((event,session)=>{
+ if(session?.user){
+  showApp(session.user);
+ }else{
+  showAuth();
+ }
+});
+
+(async()=>{
+ const {data}=await db.auth.getSession();
+ if(data.session)await showApp(data.session.user);
+ else await showAuth();
+})();
+</script>
 </body>
 </html>
